@@ -3,6 +3,7 @@ package http
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -18,8 +19,11 @@ func NewServer(viewsUsecase views_domain.ViewUsecase) *Server {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowAllOrigins: true,
-		AllowMethods:    []string{"GET", "POST", "OPTIONS"},
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
 	}))
 
 	viewsHandler := views_handlers.New(viewsUsecase)
