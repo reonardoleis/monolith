@@ -1,4 +1,4 @@
-name: deploy
+name: CD
 
 on:
   push:
@@ -13,5 +13,5 @@ jobs:
       with:
         username: ${{ secrets.SSH_USERNAME }}
         host: ${{ secrets.SSH_HOST }}
-        password: ${{ secrets.SSH_PASSWORD }})
-        script: 'cd ~/projects/cervel/ && ./deploy_api.sh views'
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: 'cd ~/projects/cervel && ./deploy_api.sh views'
