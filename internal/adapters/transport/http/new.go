@@ -17,16 +17,16 @@ type Server struct {
 func NewServer(viewsUsecase views_domain.ViewUsecase) *Server {
 	r := gin.Default()
 
-	router := r.Use(cors.New(cors.Config{
-		AllowOrigins:  []string{"*"},
-		AllowMethods:  []string{"GET", "POST"},
-		ExposeHeaders: []string{"Content-Length", "Access-Control-Allow-Origin"},
+	r.Use(cors.New(cors.Config{
+		AllowOriginFunc: func(_ string) bool {
+			return true
+		},
 	}))
 
 	viewsHandler := views_handlers.New(viewsUsecase)
 
-	router.POST("/views", viewsHandler.AddView)
-	router.GET("/views", viewsHandler.GetViewCount)
+	r.POST("/views", viewsHandler.AddView)
+	r.GET("/views", viewsHandler.GetViewCount)
 
 	return &Server{r: r}
 }
