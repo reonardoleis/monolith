@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	views_handlers "github.com/reonardoleis/views/internal/adapters/transport/http/handlers/views"
 	views_domain "github.com/reonardoleis/views/internal/core/domain/views"
@@ -15,6 +16,11 @@ type Server struct {
 
 func NewServer(viewsUsecase views_domain.ViewUsecase) *Server {
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowMethods:    []string{"GET", "POST"},
+	}))
 
 	viewsHandler := views_handlers.New(viewsUsecase)
 
