@@ -19,6 +19,7 @@ func NewServer(viewsUsecase views_domain.ViewUsecase) *Server {
 	viewsHandler := views_handlers.New(viewsUsecase)
 
 	r.POST("/views", viewsHandler.AddView)
+	r.GET("/views", viewsHandler.GetViewCount)
 
 	return &Server{r: r}
 }

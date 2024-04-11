@@ -5,3 +5,7 @@ type AddViewRequest struct {
 }
 
 type AddViewResponse struct{}
+
+type GetViewCountResponse struct {
+	Views int `json:"views"`
+}

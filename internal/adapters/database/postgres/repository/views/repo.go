@@ -32,3 +32,23 @@ func (r Repository) CreateView(ctx context.Context, ip, origin string) (*domain.
 
 	return &view, nil
 }
+
+func (r Repository) CountViews(ctx context.Context) (int, error) {
+	conn, err := postgres.Pool.Acquire(ctx)
+	if err != nil {
+		log.Println("error acquiring connection", err)
+		return 0, err
+	}
+
+	defer conn.Release()
+
+	query := `SELECT COUNT(DISTINCT ip) FROM views`
+	var count int
+	err = conn.QueryRow(ctx, query).Scan(&count)
+	if err != nil {
+		log.Println("error scanning result", err)
+		return 0, err
+	}
+
+	return count, nil
+}
