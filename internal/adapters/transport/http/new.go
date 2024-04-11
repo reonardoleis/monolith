@@ -18,9 +18,8 @@ func NewServer(viewsUsecase views_domain.ViewUsecase) *Server {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOriginFunc: func(_ string) bool {
-			return true
-		},
+		AllowAllOrigins: true,
+		AllowMethods:    []string{"GET", "POST", "OPTIONS"},
 	}))
 
 	viewsHandler := views_handlers.New(viewsUsecase)
