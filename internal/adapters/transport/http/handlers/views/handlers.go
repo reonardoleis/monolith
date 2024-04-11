@@ -19,10 +19,10 @@ func getIP(c *gin.Context) string {
 }
 
 func (h ViewsHandler) AddView(c *gin.Context) {
-	origin := c.PostForm("origin")
-
-	req := &dto.AddViewRequest{
-		Origin: origin,
+	req := new(dto.AddViewRequest)
+	if err := c.ShouldBindJSON(req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(c, time.Second*5)
