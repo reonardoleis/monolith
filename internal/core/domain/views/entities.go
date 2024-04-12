@@ -6,6 +6,7 @@ type View struct {
 	ID        int
 	IP        string
 	Origin    string
-	CreatedAt time.Time
 	Visits    int
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
