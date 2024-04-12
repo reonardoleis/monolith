@@ -7,4 +7,5 @@ type View struct {
 	IP        string
 	Origin    string
 	CreatedAt time.Time
+	Visits    int
 }

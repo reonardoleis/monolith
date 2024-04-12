@@ -20,11 +20,14 @@ func (r Repository) CreateView(ctx context.Context, ip, origin string) (*domain.
 
 	query := `INSERT INTO views (origin, ip, created_at) 
 			  VALUES ($1, $2, $3) 
-			  RETURNING id, ip, origin, created_at`
+			  ON CONFLICT (ip) DO UPDATE
+			  SET created_at = $3,
+			  	  visits = views.visits + 1
+			  RETURNING id, ip, origin, created_at, visits`
 	result := conn.QueryRow(ctx, query, origin, ip, time.Now())
 
 	view := domain.View{}
-	err = result.Scan(&view.ID, &view.IP, &view.Origin, &view.CreatedAt)
+	err = result.Scan(&view.ID, &view.IP, &view.Origin, &view.CreatedAt, &view.Visits)
 	if err != nil {
 		log.Println("error scanning result", err)
 		return nil, err
@@ -42,7 +45,7 @@ func (r Repository) CountViews(ctx context.Context) (int, error) {
 
 	defer conn.Release()
 
-	query := `SELECT COUNT(DISTINCT ip) FROM views`
+	query := `SELECT SUM(visits) FROM views`
 	var count int
 	err = conn.QueryRow(ctx, query).Scan(&count)
 	if err != nil {

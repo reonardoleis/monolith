@@ -16,7 +16,13 @@ type Server struct {
 }
 
 func NewServer(viewsUsecase views_domain.ViewUsecase) *Server {
-	r := gin.Default()
+	r := gin.New()
+
+	r.Use(gin.Recovery())
+
+	if os.Getenv("GIN_MODE") != "release" {
+		r.Use(gin.Logger())
+	}
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
