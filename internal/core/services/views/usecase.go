@@ -1,4 +1,4 @@
-package views_usecase
+package views_service
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	dto "github.com/reonardoleis/views/internal/core/dto/views"
 )
 
-func (u usecase) AddView(ctx context.Context, ip string, req *dto.AddViewRequest) (*dto.AddViewResponse, error) {
+func (u service) AddView(ctx context.Context, ip string, req *dto.AddViewRequest) (*dto.AddViewResponse, error) {
 	_, err := u.repo.CreateView(ctx, ip, req.Origin)
 	if err != nil {
 		log.Println("error creating view", err)
@@ -17,7 +17,7 @@ func (u usecase) AddView(ctx context.Context, ip string, req *dto.AddViewRequest
 	return &dto.AddViewResponse{}, nil
 }
 
-func (u usecase) GetViewCount(ctx context.Context) (*dto.GetViewCountResponse, error) {
+func (u service) GetViewCount(ctx context.Context) (*dto.GetViewCountResponse, error) {
 	count, err := u.repo.CountViews(ctx)
 	if err != nil {
 		log.Println("error counting views", err)

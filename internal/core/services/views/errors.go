@@ -1,4 +1,4 @@
-package views_usecase
+package views_service
 
 import (
 	"errors"

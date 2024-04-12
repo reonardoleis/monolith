@@ -28,7 +28,7 @@ func (h ViewsHandler) AddView(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c, time.Second*5)
 	defer cancel()
 
-	response, err := h.usecase.AddView(ctx, getIP(c), req)
+	response, err := h.svc.AddView(ctx, getIP(c), req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -41,7 +41,7 @@ func (h ViewsHandler) GetViewCount(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c, time.Second*5)
 	defer cancel()
 
-	response, err := h.usecase.GetViewCount(ctx)
+	response, err := h.svc.GetViewCount(ctx)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

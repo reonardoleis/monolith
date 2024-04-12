@@ -1,11 +1,11 @@
 package views_handlers
 
-import domain "github.com/reonardoleis/views/internal/core/domain/views"
+import domain "github.com/reonardoleis/views/internal/core/ports/views"
 
 type ViewsHandler struct {
-	usecase domain.ViewUsecase
+	svc domain.ViewService
 }
 
-func New(usecase domain.ViewUsecase) *ViewsHandler {
-	return &ViewsHandler{usecase}
+func New(svc domain.ViewService) *ViewsHandler {
+	return &ViewsHandler{svc}
 }
